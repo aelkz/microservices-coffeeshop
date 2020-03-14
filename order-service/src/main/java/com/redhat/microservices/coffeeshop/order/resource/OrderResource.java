@@ -7,11 +7,18 @@ import com.redhat.microservices.coffeeshop.order.pojo.Storage;
 import com.redhat.microservices.coffeeshop.order.service.external.ProductService;
 import com.redhat.microservices.coffeeshop.order.service.external.StorageService;
 import com.redhat.microservices.coffeeshop.order.service.internal.PaymentOrderService;
+import org.eclipse.microprofile.metrics.Counter;
+import org.eclipse.microprofile.metrics.MetricRegistry;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.Tag;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Metered;
+import org.eclipse.microprofile.metrics.annotation.Metric;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.annotation.Resource;
@@ -21,7 +28,6 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
@@ -29,14 +35,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.*;
 
 @Path("/v1")
-@Tag(name = "Order resource", description = "Order REST resource")
+@org.eclipse.microprofile.openapi.annotations.tags.Tag(name = "Order resource", description = "Order REST resource")
 @ApplicationScoped
 public class OrderResource {
     private static final Logger log = LoggerFactory.getLogger(OrderResource.class);
@@ -54,6 +58,18 @@ public class OrderResource {
     @Inject
     private Instance<StorageService> storageServiceInstance;
 
+    // Business Metrics (using microprofile)
+    @Inject
+    @Metric(name = "payment_method_counter", tags = "payment_method=CREDIT_CARD", absolute = true)
+    Counter creditCardCounter;
+
+    @Inject
+    @Metric(name = "payment_method_counter", tags = "payment_method=MONEY", absolute = true)
+    Counter moneyCounter;
+
+    @Inject
+    MetricRegistry metricRegistry;
+
     @POST
     @Path("/order")
     @Produces(MediaType.APPLICATION_JSON)
@@ -64,6 +80,14 @@ public class OrderResource {
             @APIResponse(responseCode = "200", description = "Successful, returning the created resource", content = @Content(mediaType = MediaType.APPLICATION_JSON)),
             @APIResponse(responseCode = "400", description = "Fail, invalid payload", content = @Content(mediaType = MediaType.APPLICATION_JSON))
     })
+    @Counted(unit = MetricUnits.NONE,
+            name = "orders",
+            absolute = true,
+            displayName = "Coffee Shop Orders",
+            description = "Metrics to show how many orders with POST http method was fired.",
+            tags = {"orders"})
+    @Timed(name = "orderProcessingDuration")
+    @Metered(name = "orderRequest", tags = {"spec=JAX-RS", "level=REST", "method=POST"})
     public Response order(@Context HttpHeaders headers, PaymentOrder order) throws InterruptedException, ExecutionException {
         if (order == null) {
             return error(Response.Status.UNSUPPORTED_MEDIA_TYPE, "Invalid payload!");
@@ -96,6 +120,7 @@ public class OrderResource {
                     totalRequiredMilk += result.getMilk();
                     totalRequiredCoffee += result.getCoffee();
                     log.info("Result is available. Returning Product: " + result.getName() + " with id: " + result.getId());
+                    metricRegistry.counter("product_counter", new Tag("type", result.getName())).inc();
                 }
 
                 // Check storage for coffee and milk availability
@@ -144,6 +169,15 @@ public class OrderResource {
 
                 response = Response.status(Response.Status.CREATED).entity(order).build();
                 log.info("Order added with id:"+order.getId());
+
+                if (order.getPaymentMethod().equals(PaymentOrder.PaymentMethod.CREDIT_CARD)) {
+                    creditCardCounter.inc();
+                }else {
+                    moneyCounter.inc();
+                }
+
+                // track total orders in a week (day of week for total coffee orders)
+                metricRegistry.counter("order_day_counter", new org.eclipse.microprofile.metrics.Tag("DAY_OF_WEEK", order.getCreation().getDayOfWeek().name().toUpperCase())).inc();
 
             } catch (InterruptedException e) { // thread was interrupted
                 response = error(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());

@@ -2,6 +2,9 @@ package com.redhat.microservices.coffeeshop.maintenance.resource;
 
 import com.redhat.microservices.coffeeshop.maintenance.model.Maintenance;
 import com.redhat.microservices.coffeeshop.maintenance.service.MaintenanceService;
+import org.eclipse.microprofile.metrics.Counter;
+import org.eclipse.microprofile.metrics.MetricRegistry;
+import org.eclipse.microprofile.metrics.annotation.Metric;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
@@ -29,6 +32,9 @@ public class MaintenanceResource {
     @Inject
     private MaintenanceService service;
 
+    @Inject
+    MetricRegistry metricRegistry;
+
     @POST
     @Path("/maintenance")
     @Produces(MediaType.APPLICATION_JSON)
@@ -53,6 +59,8 @@ public class MaintenanceResource {
         }else {
             try {
                 m = service.save(m);
+                // track maintenance in a week (the most common day of week for coffee machine maintenance)
+                metricRegistry.counter("maintenance_counter", new org.eclipse.microprofile.metrics.Tag("DAY_OF_WEEK", m.getCreation().getDayOfWeek().name().toUpperCase())).inc();
                 response = Response.status(Response.Status.CREATED).entity(m).build();
                 log.info("Maintenance added with id:"+m.getId());
             }catch (Exception e) {

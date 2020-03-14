@@ -1,0 +1,6 @@
+# Project exclude paths
+/barista-service/target/
+/maintenance-service/target/
+/order-service/target/
+/product-service/target/
+/storage-service/target/

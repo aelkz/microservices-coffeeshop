@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>coffeeshop</artifactId>
+        <groupId>com.redhat.microservices</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>storage-service</artifactId>
+    <packaging>war</packaging>
+
+    <name>StorageService</name>
+    <description>Red Hat Training - Coffee Shop : Storage Service</description>
+
+    <properties>
+        <db.jndiName>java:/jboss/datasources/StorageDS</db.jndiName>
+        <hibernate.show_sql>true</hibernate.show_sql>
+    </properties>
+
+</project>

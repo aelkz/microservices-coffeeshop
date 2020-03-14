@@ -1,0 +1,17 @@
+# https://docs.thorntail.io/2.4.0.Final/
+thorntail:
+  port:
+    offset: 200
+  ajp:
+    enable: true
+  http:
+    port: 8070
+  datasources:
+    data-sources:
+      StorageDS:
+        driver-name: h2
+        connection-url: jdbc:h2:mem:storage;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+        user-name: sa
+        password: sa
+  greeting:
+    message: Hello %s from a ConfigMap!

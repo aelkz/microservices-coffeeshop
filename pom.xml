@@ -42,6 +42,7 @@
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <hibernate.show_sql>true</hibernate.show_sql>
         <maven.min.version>3.5.4</maven.min.version>
+        <fabric8.generator.from>registry.redhat.io/openjdk/openjdk-8-rhel8:latest</fabric8.generator.from>
         <nexusReleaseRepoUrl></nexusReleaseRepoUrl>
         <nexusSnapshotRepoUrl></nexusSnapshotRepoUrl>
     </properties>
@@ -363,7 +364,7 @@
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>fabric8-maven-plugin</artifactId>
-                        <version>3.5.40</version>
+                        <version>4.3.1</version>
                         <executions>
                             <execution>
                                 <goals>

@@ -2,8 +2,6 @@ package com.redhat.microservices.coffeeshop.maintenance.model;
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.annotations.GenericGenerator;
-import sun.applet.Main;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

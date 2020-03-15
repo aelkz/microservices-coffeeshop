@@ -254,57 +254,7 @@
             </resource>
         </resources>
 
-        <finalName>${project.artifactId}</finalName>
         <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.plugin.version}</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
-                <configuration>
-                    <arguments><!-- http://www.h2database.com/javadoc/org/h2/tools/Server.html -->
-                        <argument>-jar</argument>
-                        <argument>${project.build.directory}/libs/h2-${version.h2}.jar</argument>
-                        <argument>-tcp</argument>
-                        <argument>-tcpAllowOthers</argument>
-                        <argument>-web</argument>
-                        <argument>-webDaemon</argument>
-                        <argument>-webAllowOthers</argument>
-                        <!--<argument>-browser</argument>-->
-                        <argument>-pg</argument>
-                        <argument>-pgDaemon</argument>
-                        <argument>-pgAllowOthers</argument>
-                        <!--<argument>-pgPort</argument>
-                        <argument>3456</argument>-->
-                        <!--<argument>-trace</argument>-->
-                        <!--<argument>-help</argument>-->
-                    </arguments>
-                </configuration>
-            </plugin>
-
-            <!-- copy h2.jar into ./target/libs folder -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.1.1</version>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${version.war.plugin}</version>
-                <configuration>
-                    <!-- Java EE 7 doesn't require web.xml, Maven needs to catch up! -->
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
             <!-- The Wildfly Swarm plugin creates an uber jar -->
             <!-- To use, run: mvn wildfly-swarm:run -->
             <plugin>
@@ -312,6 +262,7 @@
                 <artifactId>thorntail-maven-plugin</artifactId>
                 <version>${version.thorntail}</version>
                 <configuration>
+                    <hollow>true</hollow>
                     <jvmArguments>
                         <jvmArgument>-Xms128m</jvmArgument>
                         <jvmArgument>-Xmx512m</jvmArgument>
@@ -333,7 +284,77 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${version.war.plugin}</version>
+                <configuration>
+                    <!-- Java EE 7 doesn't require web.xml, Maven needs to catch up! -->
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
         </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>io.thorntail</groupId>
+                    <artifactId>thorntail-maven-plugin</artifactId>
+                    <version>${thorntail.version}</version>
+                    <configuration>
+                        <jvmArguments>
+                            <jvmArgument>-Xmx128m</jvmArgument>
+                        </jvmArguments>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>package</id>
+                            <goals>
+                                <goal>package</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin.version}</version>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.22.1</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
     </build>
 
 </project>

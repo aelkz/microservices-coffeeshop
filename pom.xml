@@ -320,13 +320,13 @@
                     <artifactId>thorntail-maven-plugin</artifactId>
                     <version>${thorntail.version}</version>
                     <configuration>
+                        <useUberJar>true</useUberJar>
                         <jvmArguments>
                             <jvmArgument>-Xmx128m</jvmArgument>
                         </jvmArguments>
                     </configuration>
                     <executions>
                         <execution>
-                            <id>package</id>
                             <goals>
                                 <goal>package</goal>
                             </goals>
@@ -376,6 +376,7 @@
                         <version>4.3.1</version>
                         <executions>
                             <execution>
+                                <id>fmp</id>
                                 <goals>
                                     <goal>resource</goal>
                                     <goal>build</goal>
@@ -399,6 +400,14 @@
                                 </config>
                             </enricher>
                             <resources>
+                                <labels>
+                                    <all>
+                                        <property>
+                                            <name>runtime</name>
+                                            <value>thorntail</value>
+                                        </property>
+                                    </all>
+                                </labels>
                                 <env>
                                     <AB_OFF>true</AB_OFF>
                                     <JAVA_OPTIONS>-server -Xms512m -Xmx1024m -Djava.net.preferIPv4Stack=true</JAVA_OPTIONS>

@@ -3,11 +3,11 @@ thorntail:
   ajp:
     enable: true
   http:
-    port: 8070
+    port: 8080
   datasources:
     data-sources:
       MaintenanceDS:
         driver-name: h2
-        connection-url: jdbc:h2:mem:maintenance;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+        connection-url: jdbc:h2:mem:barista;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
         user-name: sa
         password: sa

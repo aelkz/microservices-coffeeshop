@@ -13,10 +13,3 @@ thorntail:
         connection-url: jdbc:h2:mem:order;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
         user-name: sa
         password: sa
-  deployment:
-    example-jaxrs-swagger.war:
-      swagger:
-        packages:
-          - org.wildfly.swarm.examples.jaxrs.swagger
-  greeting:
-    message: Hello %s from a ConfigMap!

@@ -42,7 +42,20 @@
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <hibernate.show_sql>true</hibernate.show_sql>
         <maven.min.version>3.5.4</maven.min.version>
+        <nexusReleaseRepoUrl></nexusReleaseRepoUrl>
+        <nexusSnapshotRepoUrl></nexusSnapshotRepoUrl>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <url>${nexusReleaseRepoUrl}</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <url>${nexusSnapshotRepoUrl}</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <repositories>
         <!-- maven central repository -->
@@ -281,6 +294,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.1</version>
             </plugin>
 
             <plugin>

@@ -30,11 +30,10 @@
 
     <developers>
         <developer>
-            <id>cescoffier</id>
-            <name>Clement Escoffier</name>
-            <email>clement[AT]apache[DOT]org</email>
-            <url>https://github.com/cescoffier</url>
-            <distribution>repo</distribution>
+            <id>aelkz</id>
+            <name>Raphael Abreu</name>
+            <email>raphael.alex@gmail.com</email>
+            <url>https://github.com/aelkz</url>
         </developer>
     </developers>
 

@@ -1,7 +1,9 @@
 package com.redhat.microservices.coffeeshop.maintenance.resource;
 
+import com.redhat.microservices.coffeeshop.maintenance.model.Greeting;
 import com.redhat.microservices.coffeeshop.maintenance.model.Maintenance;
 import com.redhat.microservices.coffeeshop.maintenance.service.MaintenanceService;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.metrics.Counter;
 import org.eclipse.microprofile.metrics.MetricRegistry;
 import org.eclipse.microprofile.metrics.annotation.Metric;
@@ -22,6 +24,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Optional;
 
 @Path("/v1")
 @Tag(name = "Maintenance resource", description = "Maintenance REST resource")
@@ -83,6 +86,20 @@ public class MaintenanceResource {
         List<Maintenance> items = service.findAll();
 
         return items.size() > 0 ? items.toArray(new Maintenance[0]) : null;
+    }
+
+    @Inject
+    @ConfigProperty(name = "greeting.message")
+    private Optional<String> message;
+
+    @GET
+    @Path("/greeting")
+    @Produces("application/json")
+    public Response greeting(@QueryParam("name") @DefaultValue("World") String name) {
+        return message
+                .map(s -> Response.ok().entity(new Greeting(String.format(s, name))).build())
+                .orElseGet(() -> Response.status(500).entity("ConfigMap not present").build());
+
     }
 
     private Response error(Response.Status status, String message) {

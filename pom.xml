@@ -271,7 +271,6 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>package</id>
                         <goals>
                             <goal>package</goal>
                         </goals>
@@ -354,7 +353,52 @@
 
             </plugins>
         </pluginManagement>
-
     </build>
+
+    <profiles>
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>fabric8-maven-plugin</artifactId>
+                        <version>3.5.40</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>resource</goal>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <generator>
+                                <includes>
+                                    <include>thorntail-v2</include>
+                                </includes>
+                                <excludes>
+                                    <exclude>webapp</exclude>
+                                </excludes>
+                            </generator>
+                            <enricher>
+                                <config>
+                                    <thorntail-v2-health-check>
+                                        <path>/</path>
+                                    </thorntail-v2-health-check>
+                                </config>
+                            </enricher>
+                            <resources>
+                                <env>
+                                    <AB_OFF>true</AB_OFF>
+                                    <JAVA_OPTIONS>-Djava.net.preferIPv4Stack=true</JAVA_OPTIONS>
+                                </env>
+                            </resources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

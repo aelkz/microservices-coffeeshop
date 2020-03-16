@@ -46,8 +46,8 @@ spec:
 
           ## Insert Volumes here
           volumes:
-            name: barista-config-volume
-            - configMap:
+            - name: barista-config-volume
+              configMap:
                 name: app-config
                 items:
                   - key: "barista-config"

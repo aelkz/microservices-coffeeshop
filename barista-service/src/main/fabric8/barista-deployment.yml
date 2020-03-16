@@ -18,6 +18,15 @@ spec:
         runtime: thorntail
         version: '1.0'
     spec:
+      ## Insert Volumes here
+      volumes:
+        - name: barista-config-volume
+          configMap:
+            name: barista-config-file
+            items:
+              - key: "barista-config"
+                path: "barista-config.yml"
+
       containers:
         - env:
             - name: KUBERNETES_NAMESPACE
@@ -30,16 +39,6 @@ spec:
               value: '256'
             - name: JAVA_OPTIONS
               value: "-server -Djava.net.preferIPv4Stack=true -Dswarm.project.stage=production -Dswarm.project.stage.file=file:///app/config/barista-config.yml"
-
-          ## Insert Volumes here
-          volumes:
-            - name: barista-config-volume
-              configMap:
-                name: barista-config-file
-                items:
-                  - key: "barista-config"
-                    path: "barista-config.yml"
-
           ## Insert Volume Mounts here
           volumeMounts:
             - name: barista-config-volume
@@ -48,6 +47,7 @@ spec:
           name: barista-service
           image: barista-service:latest
           imagePullPolicy: IfNotPresent
+
           ports:
             - containerPort: 8080
               name: http

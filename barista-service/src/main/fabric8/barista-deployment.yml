@@ -31,7 +31,7 @@ spec:
 
           ## Insert Volume Mounts here
           volumeMounts:
-            - name: barista-config-volume
+            - name: barista-config
               mountPath: /app/config
 
           name: barista-service
@@ -46,7 +46,7 @@ spec:
 
           ## Insert Volumes here
           volumes:
-            - name: barista-config-volume
+            - name: barista-config
               configMap:
                 name: app-config
                 items:

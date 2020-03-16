@@ -11,8 +11,12 @@ spec:
   template:
     metadata:
       labels:
-        app: barista
+        app: barista-service
         deploymentconfig: barista-service
+        group: com.redhat.microservices
+        provider: fabric8
+        runtime: thorntail
+        version: '1.0'
     spec:
       containers:
         - env:
@@ -27,7 +31,7 @@ spec:
 
           ## Insert Volume Mounts here
           volumeMounts:
-            - name: config
+            - name: barista-config-volume
               mountPath: /app/config
 
           name: barista-service
@@ -42,12 +46,12 @@ spec:
 
           ## Insert Volumes here
           volumes:
+            name: barista-config-volume
             - configMap:
                 name: app-config
                 items:
                   - key: "barista-config"
                     path: "barista-config.yml"
-              name: config
 
   triggers:
     - type: ConfigChange

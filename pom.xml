@@ -44,7 +44,8 @@
         <version.compiler.plugin>3.1</version.compiler.plugin>
         <version.surefire.plugin>2.16</version.surefire.plugin>
         <version.war.plugin>3.2.3</version.war.plugin>
-        <!-- version 2.5.0.Final-redhat-00016 is in early access yet -->
+        <!-- version 2.5.0.Final-redhat-00016 is in early access yet, so I choose version 2.6.0 from community -->
+        <!-- https://access.redhat.com/documentation/en-us/red_hat_build_of_thorntail/2.5/html-single/thorntail_runtime_guide/index#creating-an-application-from-scratch_wf-swarm -->
         <version.thorntail>2.6.0.Final</version.thorntail>
         <version.thorntail.unsupported>2.6.0.Final</version.thorntail.unsupported>
         <version.h2>1.4.200</version.h2>
@@ -54,7 +55,7 @@
         <version.restassured>4.1.2</version.restassured>
         <version.resteasy>3.9.0.Final-redhat-00001</version.resteasy>
         <version.arquillian-cube>1.18.2</version.arquillian-cube>
-
+        <version.fabric8>3.0.12</version.fabric8>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
@@ -161,6 +162,13 @@
                 <groupId>io.thorntail</groupId>
                 <artifactId>bom-all</artifactId>
                 <version>${version.thorntail}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.fabric8</groupId>
+                <artifactId>fabric8-project-bom-with-platform-deps</artifactId>
+                <version>${version.fabric8}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

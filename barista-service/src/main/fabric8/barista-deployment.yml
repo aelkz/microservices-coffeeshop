@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: barista-service
+spec:
+  replicas: 1
+  strategy:
+    rollingParams:
+      timeoutSeconds: 10800
+    type: Rolling
+  template:
+    metadata:
+      labels:
+        app: barista
+        deploymentconfig: barista-service
+    spec:
+      containers:
+        - env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: JAVA_APP_DIR
+              value: /deployments
+            - name: JAVA_OPTIONS
+              value: "-Dswarm.project.stage=production -Dswarm.project.stage.file=file:///app/config/barista-config.yml"
+
+          ## Insert Volume Mounts here
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+
+          name: barista-service
+          image: barista-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          securityContext:
+            privileged: false
+
+          ## Insert Volumes here
+          volumes:
+            - configMap:
+                name: app-config
+                items:
+                  - key: "barista-config"
+                    path: "barista-config.yml"
+              name: config
+
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - barista-service
+        from:
+          kind: ImageStreamTag
+          name: barista-service:latest
+      type: ImageChange

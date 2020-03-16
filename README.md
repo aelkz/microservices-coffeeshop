@@ -90,3 +90,10 @@ Check storage availability
 ```
 curl --location --request GET 'http://localhost:8070/api/v1/storage'
 ```
+
+
+```
+mvn clean fabric8:deploy -Popenshift
+mvn clean fabric8:deploy -Popenshift -DskipTests
+mvn clean package thorntail:run
+```

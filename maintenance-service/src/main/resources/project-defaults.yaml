@@ -1,4 +1,3 @@
-# https://docs.thorntail.io/2.4.0.Final/
 thorntail:
   ajp:
     enable: true

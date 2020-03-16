@@ -357,7 +357,6 @@
                 <artifactId>thorntail-maven-plugin</artifactId>
                 <version>${version.thorntail}</version>
                 <configuration>
-                    <hollow>true</hollow>
                     <jvmArguments>
                         <jvmArgument>-Xms128m</jvmArgument>
                         <jvmArgument>-Xmx512m</jvmArgument>

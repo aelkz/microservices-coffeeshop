@@ -1,3 +1,5 @@
+project:
+  stage: development
 thorntail:
   ajp:
     enable: true

@@ -9,6 +9,8 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.wildfly.swarm.spi.runtime.annotations.ConfigurationValue;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -28,6 +30,16 @@ public class BaristaResource {
 
     @Inject
     private BaristaService service;
+
+    @Inject
+    @ConfigurationValue("project.stage")
+    String stage;
+
+    @GET
+    @Path("/environment")
+    public Response getStage() {
+        return Response.ok("{stage: '" + stage + "'}").build();
+    }
 
     @POST
     @Path("/barista")

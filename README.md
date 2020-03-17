@@ -96,4 +96,5 @@ curl --location --request GET 'http://localhost:8070/api/v1/storage'
 mvn clean package fabric8:deploy -Popenshift
 mvn clean package fabric8:deploy -Popenshift -DskipTests
 mvn clean package thorntail:run
+mvn clean package && java -jar -Dswarm.project.stage=dev ./target/xxxxx-swarm.jar
 ```

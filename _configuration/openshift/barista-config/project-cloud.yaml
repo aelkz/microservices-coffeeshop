@@ -1,10 +1,13 @@
 apiVersion: v1
+kind: ConfigMap
 metadata:
-  name: app-config
+  name: barista-config-file
 data:
-  barista-config.yml: |-
+  barista-config: |-
     greeting:
-      message: Hello %s from a ConfigMap!
+      message: Hello %s from project-cloud.yaml!
+    project:
+      stage: production
     thorntail:
       logging: INFO
       ajp:

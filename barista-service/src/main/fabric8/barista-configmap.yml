@@ -3,7 +3,7 @@ metadata:
 data:
   barista-config: |
     project:
-      stage: production
+      stage: staging
     thorntail:
       logging: INFO
       datasources:
@@ -14,4 +14,4 @@ data:
             user-name: sa
             password: sa
     greeting:
-      message: Hello %s from a ConfigMap!
+      message: Hello %s from barista-configmap.yml!

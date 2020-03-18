@@ -434,7 +434,7 @@
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>fabric8-maven-plugin</artifactId>
-                        <version>4.3.0</version>
+                        <version>3.5.40</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -444,6 +444,14 @@
                             </execution>
                         </executions>
                         <configuration>
+                            <generator>
+                                <includes>
+                                    <include>thorntail-v2</include>
+                                </includes>
+                                <excludes>
+                                    <exclude>webapp</exclude>
+                                </excludes>
+                            </generator>
                             <enricher>
                                 <config>
                                     <thorntail-v2-health-check>

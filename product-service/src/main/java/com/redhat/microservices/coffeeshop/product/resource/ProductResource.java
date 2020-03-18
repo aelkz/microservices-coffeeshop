@@ -7,8 +7,6 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -24,7 +22,7 @@ import java.util.List;
 @Tag(name = "Product resource", description = "Product REST resource")
 @ApplicationScoped
 public class ProductResource {
-    private static final Logger log = LoggerFactory.getLogger(ProductResource.class);
+    //private static final Logger log = LoggerFactory.getLogger(ProductResource.class);
 
     @Inject
     ProductService service;
@@ -49,12 +47,12 @@ public class ProductResource {
 
         if (service.invalid(headers, b)) {
             response = Response.status(Response.Status.BAD_REQUEST).entity(b).build();
-            log.error("Product creation failed");
+            //log.error("Product creation failed");
         }else {
             try {
                 b = service.save(b);
                 response = Response.status(Response.Status.CREATED).entity(b).build();
-                log.info("Product:"+b.getName()+" added with id:"+b.getId());
+                //log.info("Product:"+b.getName()+" added with id:"+b.getId());
             }catch (Exception e) {
                 response = error(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
             }

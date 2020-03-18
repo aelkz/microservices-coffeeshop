@@ -2,8 +2,6 @@ package com.redhat.microservices.coffeeshop.storage.service;
 
 import com.redhat.microservices.coffeeshop.storage.model.Storage;
 import com.redhat.microservices.coffeeshop.storage.repository.StorageRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.core.HttpHeaders;
@@ -11,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class StorageService {
-    private static final Logger log = LoggerFactory.getLogger(StorageService.class);
 
     @Inject
     private StorageRepository repository;

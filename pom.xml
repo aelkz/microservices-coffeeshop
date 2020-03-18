@@ -87,25 +87,6 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-        <!-- jboss.org repository -->
-        <!-- Due to error: Could not find artifact org.glassfish:javax.el-impl:jar:3.0.1-b08-jbossorg-1 -->
-        <!-- https://issues.redhat.com/browse/THORN-776?workflowName=SWARM+Kanban+workflow+v1&stepId=1 -->
-        <!-- https://issues.redhat.com/browse/THORN-549?attachmentOrder=desc -->
-        <!-- https://www.39mo.com/43/536323.php -->
-        <!-- https://mvnrepository.com/artifact/org.glassfish/javax.el-impl/3.0.1-b08-jbossorg-1 -->
-        <repository>
-            <id>jboss-public-repository-group</id>
-            <name>JBoss Public Repository Group</name>
-            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-        </repository>
         <!-- redhat official maven repositories -->
         <repository>
             <releases>
@@ -130,6 +111,24 @@
             <id>red-hat-ea-repository</id>
             <name>Red Hat EA Repository</name>
             <url>https://maven.repository.redhat.com/earlyaccess/all/</url>
+        </repository>
+        <!-- jboss.org repository -->
+        <!-- Due to error: Could not find artifact org.glassfish:javax.el-impl:jar:3.0.1-b08-jbossorg-1 -->
+        <!-- https://issues.redhat.com/browse/THORN-776?workflowName=SWARM+Kanban+workflow+v1&stepId=1 -->
+        <!-- https://issues.redhat.com/browse/THORN-549?attachmentOrder=desc -->
+        <!-- https://www.39mo.com/43/536323.php -->
+        <!-- https://mvnrepository.com/artifact/org.glassfish/javax.el-impl/3.0.1-b08-jbossorg-1 -->
+        <repository>
+            <id>jboss-public-repository-group</id>
+            <name>JBoss Public Repository Group</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 
@@ -170,18 +169,25 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.eclipse.microprofile</groupId>
-                <artifactId>microprofile</artifactId>
-                <version>${version.microprofile}</version>
-                <type>pom</type>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
                 <groupId>io.thorntail</groupId>
                 <artifactId>bom-all</artifactId>
                 <version>${version.thorntail}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.fabric8</groupId>
+                <artifactId>fabric8-project-bom-with-platform-deps</artifactId>
+                <version>${version.fabric8}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.arquillian.cube</groupId>
+                <artifactId>arquillian-cube-bom</artifactId>
+                <version>${version.arquillian-cube}</version>
+                <scope>import</scope>
+                <type>pom</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -190,7 +196,23 @@
         <dependency>
             <groupId>org.eclipse.microprofile</groupId>
             <artifactId>microprofile</artifactId>
+            <version>${version.microprofile}</version>
             <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>microprofile-config</artifactId>
+            <version>${version.thorntail}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>microprofile-openapi</artifactId>
+            <version>${version.thorntail}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.thorntail</groupId>
+            <artifactId>microprofile-metrics</artifactId>
+            <version>${version.thorntail}</version>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
@@ -265,9 +287,9 @@
             <version>2.0.1.Final</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.30</version>
+            <groupId>io.thorntail</groupId>
+            <artifactId>logging</artifactId>
+            <version>${version.thorntail}</version>
         </dependency>
     </dependencies>
 

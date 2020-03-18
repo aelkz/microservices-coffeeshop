@@ -19,8 +19,6 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import javax.annotation.Resource;
 import javax.enterprise.concurrent.ManagedExecutorService;
 import javax.enterprise.context.ApplicationScoped;
@@ -43,7 +41,7 @@ import java.util.concurrent.*;
 @org.eclipse.microprofile.openapi.annotations.tags.Tag(name = "Order resource", description = "Order REST resource")
 @ApplicationScoped
 public class OrderResource {
-    private static final Logger log = LoggerFactory.getLogger(OrderResource.class);
+    //private static final Logger log = LoggerFactory.getLogger(OrderResource.class);
     public static final String RESERVATION_ID = "ORDER-RESERVATION";
 
     @Inject
@@ -97,7 +95,7 @@ public class OrderResource {
 
         if (service.invalid(headers, order)) {
             response = Response.status(Response.Status.BAD_REQUEST).build();
-            log.error("Order creation failed");
+            //log.error("Order creation failed");
         }else {
             try {
                 Set<PaymentOrderItem> items = order.getItems();
@@ -112,14 +110,14 @@ public class OrderResource {
                     Future<Product> futureProduct = managedExecutorService.submit(ps);
 
                     while (!futureProduct.isDone()) {
-                        log.info("Waiting Product API response...");
+                        //log.info("Waiting Product API response...");
                         Thread.sleep(50);
                     }
 
                     Product result = futureProduct.get();
                     totalRequiredMilk += result.getMilk();
                     totalRequiredCoffee += result.getCoffee();
-                    log.info("Result is available. Returning Product: " + result.getName() + " with id: " + result.getId());
+                    //log.info("Result is available. Returning Product: " + result.getName() + " with id: " + result.getId());
                     metricRegistry.counter("product_counter", new Tag("type", result.getName())).inc();
                 }
 
@@ -138,7 +136,7 @@ public class OrderResource {
                 Future<Storage> futureStoragePost = managedExecutorService.submit(ss);
 
                 while (!futureStoragePost.isDone()) {
-                    log.info("Waiting Storage API creation response...");
+                    //log.info("Waiting Storage API creation response...");
                     Thread.sleep(50);
                 }
 
@@ -159,7 +157,7 @@ public class OrderResource {
                 Future<Storage> futureStoragePut = managedExecutorService.submit(ss);
 
                 while (!futureStoragePut.isDone()) {
-                    log.info("Waiting Storage API update response...");
+                    //log.info("Waiting Storage API update response...");
                     Thread.sleep(50);
                 }
 
@@ -168,7 +166,7 @@ public class OrderResource {
                 futureStoragePut.get(5, TimeUnit.SECONDS);
 
                 response = Response.status(Response.Status.CREATED).entity(order).build();
-                log.info("Order added with id:"+order.getId());
+                //log.info("Order added with id:"+order.getId());
 
                 if (order.getPaymentMethod().equals(PaymentOrder.PaymentMethod.CREDIT_CARD)) {
                     creditCardCounter.inc();

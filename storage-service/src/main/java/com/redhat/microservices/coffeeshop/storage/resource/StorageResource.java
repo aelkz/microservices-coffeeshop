@@ -2,18 +2,18 @@ package com.redhat.microservices.coffeeshop.storage.resource;
 
 import com.redhat.microservices.coffeeshop.storage.model.Storage;
 import com.redhat.microservices.coffeeshop.storage.service.StorageService;
+/*
 import org.eclipse.microprofile.metrics.Counter;
 import org.eclipse.microprofile.metrics.Gauge;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.ConcurrentGauge;
 import org.eclipse.microprofile.metrics.annotation.Metric;
+ */
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -28,8 +28,6 @@ import javax.ws.rs.core.Response;
 @Tag(name = "Storage resource", description = "Storage REST resource")
 @ApplicationScoped
 public class StorageResource {
-    private static final Logger log = LoggerFactory.getLogger(StorageResource.class);
-
     private Double currentCoffeeStorage;
 
     private Double currentMilkStorage;
@@ -38,13 +36,13 @@ public class StorageResource {
     private StorageService service;
 
     // concurrent gauge to allow tracking current coffee storage
-    @ConcurrentGauge(unit = MetricUnits.NONE, name = "coffee_storage_gauge", absolute = true)
+    //@ConcurrentGauge(unit = MetricUnits.NONE, name = "coffee_storage_gauge", absolute = true)
     public Double getCurrentCoffeeStorage() {
         return currentCoffeeStorage;
     }
 
     // concurrent gauge to allow tracking current milk storage
-    @ConcurrentGauge(unit = MetricUnits.NONE, name = "milk_storage_gauge", absolute = true)
+    //@ConcurrentGauge(unit = MetricUnits.NONE, name = "milk_storage_gauge", absolute = true)
     public Double getCurrentMilkStorage() {
         return currentMilkStorage;
     }
@@ -68,12 +66,12 @@ public class StorageResource {
 
         if (service.invalid(headers, s)) {
             response = Response.status(Response.Status.BAD_REQUEST).entity(s).build();
-            log.error("Storage creation failed");
+            //log.error("Storage creation failed");
         }else {
             try {
                 s = service.save(s);
                 response = Response.status(Response.Status.CREATED).entity(s).build();
-                log.info("Storage record added with id:"+s.getId());
+                //log.info("Storage record added with id:"+s.getId());
                 setCurrentCoffeeStorage(s.getTotalCoffee());
                 setCurrentMilkStorage(s.getTotalMilk());
             }catch (Exception e) {
@@ -102,12 +100,12 @@ public class StorageResource {
 
         if (service.invalid(headers, s)) {
             response = Response.status(Response.Status.BAD_REQUEST).entity(s).build();
-            log.error("Storage reservation failed");
+            //log.error("Storage reservation failed");
         }else {
             try {
                 service.update(s);
                 response = Response.status(Response.Status.NO_CONTENT).build();
-                log.info("Storage reservation record updated");
+                //log.info("Storage reservation record updated");
             }catch (Exception e) {
                 response = error(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
             }

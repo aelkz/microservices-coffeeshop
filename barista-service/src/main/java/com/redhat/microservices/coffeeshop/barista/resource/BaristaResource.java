@@ -7,10 +7,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.wildfly.swarm.spi.runtime.annotations.ConfigurationValue;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -26,7 +23,7 @@ import java.util.List;
 @Tag(name = "Barista resource", description = "Barista REST resource")
 @ApplicationScoped
 public class BaristaResource {
-    private static final Logger log = LoggerFactory.getLogger(BaristaResource.class);
+    //private static final Logger log = LoggerFactory.getLogger(BaristaResource.class);
 
     @Inject
     private BaristaService service;
@@ -61,12 +58,12 @@ public class BaristaResource {
 
         if (service.invalid(headers, b)) {
             response = Response.status(Response.Status.BAD_REQUEST).entity(b).build();
-            log.error("Barista creation failed");
+            //log.error("Barista creation failed");
         }else {
             try {
                 b = service.save(b);
                 response = Response.status(Response.Status.CREATED).entity(b).build();
-                log.info("Barista:"+b.getName()+" added with id:"+b.getId());
+                //log.info("Barista:"+b.getName()+" added with id:"+b.getId());
             }catch (Exception e) {
                 response = error(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
             }

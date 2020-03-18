@@ -40,14 +40,14 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.microprofile>3.2</version.microprofile>
-        <version.wildfly.swarm>2018.3.3</version.wildfly.swarm>
         <version.compiler.plugin>3.1</version.compiler.plugin>
         <version.surefire.plugin>2.16</version.surefire.plugin>
         <version.war.plugin>3.2.3</version.war.plugin>
-        <!-- version 2.5.0.Final-redhat-00016 is in early access yet, so I choose version 2.6.0 from community -->
+        <!-- version 2.5.0.Final-redhat-00016 is in early access yet, so I chose version 2.6.0 from community -->
         <!-- https://access.redhat.com/documentation/en-us/red_hat_build_of_thorntail/2.5/html-single/thorntail_runtime_guide/index#creating-an-application-from-scratch_wf-swarm -->
-        <version.thorntail>2.6.0.Final</version.thorntail>
-        <version.thorntail.unsupported>2.6.0.Final</version.thorntail.unsupported>
+        <version.thorntail>2.5.0.Final</version.thorntail>
+        <version.thorntail.unsupported>2.5.0.Final</version.thorntail.unsupported>
+        <version.hibernate>5.3.7.Final</version.hibernate>
         <version.h2>1.4.200</version.h2>
         <version.assertj>3.13.2</version.assertj>
         <version.awaitility>4.0.1</version.awaitility>
@@ -231,10 +231,18 @@
             <artifactId>jpa</artifactId>
             <version>${version.thorntail}</version>
         </dependency>
+        <!--
+        only in thorntail 2.6.0
         <dependency>
             <groupId>io.thorntail</groupId>
             <artifactId>hibernate</artifactId>
             <version>${version.thorntail.unsupported}</version>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${version.hibernate}</version>
         </dependency>
         <dependency>
             <groupId>io.thorntail</groupId>
@@ -291,6 +299,11 @@
             <groupId>io.thorntail</groupId>
             <artifactId>jaxrs-jsonp</artifactId>
             <version>${version.thorntail}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
         </dependency>
         <!-- test dependencies -->
         <dependency>

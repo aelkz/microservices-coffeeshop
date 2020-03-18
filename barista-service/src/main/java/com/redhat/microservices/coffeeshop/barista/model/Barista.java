@@ -40,7 +40,7 @@ public class Barista implements BaseModel<UUID> {
     @NotNull
     @Size(min = 5, max = 255, message = "E-mail must be between 5 and 255 characters")
     @Column(name = "email", nullable = false, unique = true)
-    @Email(message = "Invalid email")
+    @Email(message = "Invalid e-mail address")
     private String email;
 
     @NotNull

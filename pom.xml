@@ -175,20 +175,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>io.fabric8</groupId>
-                <artifactId>fabric8-project-bom-with-platform-deps</artifactId>
-                <version>${version.fabric8}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.arquillian.cube</groupId>
-                <artifactId>arquillian-cube-bom</artifactId>
-                <version>${version.arquillian-cube}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -305,6 +291,7 @@
             <plugin>
                 <groupId>io.thorntail</groupId>
                 <artifactId>thorntail-maven-plugin</artifactId>
+                <!-- try 2.6.0 -->
                 <version>${version.thorntail}</version>
                 <configuration>
                     <jvmArguments>
@@ -342,5 +329,64 @@
 
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.thorntail</groupId>
+                        <artifactId>thorntail-maven-plugin</artifactId>
+                        <version>${version.thorntail}</version>
+                        <configuration>
+                            <jvmArguments>
+                                <jvmArgument>-Xms128m</jvmArgument>
+                                <jvmArgument>-Xmx512m</jvmArgument>
+                                <jvmArgument>-Djava.net.preferIPv4Stack=true</jvmArgument>
+                            </jvmArguments>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>fabric8-maven-plugin</artifactId>
+                        <version>4.3.0</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>resource</goal>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <resources>
+                                <labels>
+                                    <all>
+                                        <property>
+                                            <name>runtime</name>
+                                            <value>thorntail</value>
+                                        </property>
+                                    </all>
+                                </labels>
+                                <env>
+                                    <AB_OFF>true</AB_OFF>
+                                    <JAVA_OPTIONS>-server -Djava.net.preferIPv4Stack=true</JAVA_OPTIONS>
+                                    <GC_MAX_METASPACE_SIZE>256</GC_MAX_METASPACE_SIZE>
+                                </env>
+                            </resources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

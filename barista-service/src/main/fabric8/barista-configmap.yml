@@ -6,6 +6,10 @@ data:
       stage: staging
     thorntail:
       logging: INFO
+      http:
+        port: 8080
+      ajp:
+        enable: true
       datasources:
         data-sources:
           BaristaDS:

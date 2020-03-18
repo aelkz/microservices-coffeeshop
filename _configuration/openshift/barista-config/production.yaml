@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: barista-config-file
 data:
-  barista-config: |-
+  barista-config.yml: |-
     greeting:
       message: Hello %s from project-cloud.yaml!
     project:
@@ -13,7 +13,7 @@ data:
       ajp:
         enable: true
       http:
-        port: 8080
+        port: 8070
       datasources:
         data-sources:
           BaristaDS:

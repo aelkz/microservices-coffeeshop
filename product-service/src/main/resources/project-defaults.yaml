@@ -1,5 +1,5 @@
-# https://docs.thorntail.io/2.4.0.Final/
 thorntail:
+  logging: INFO
   ajp:
     enable: true
   http:

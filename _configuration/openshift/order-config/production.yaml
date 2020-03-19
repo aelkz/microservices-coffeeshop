@@ -1,0 +1,23 @@
+project:
+  stage: staging
+thorntail:
+  logging: INFO
+  ajp:
+    enable: true
+  http:
+    port: 8080
+  datasources:
+    data-sources:
+      OrderDS:
+        driver-name: h2
+        connection-url: jdbc:h2:mem:order;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+        user-name: sa
+        password: sa
+greeting:
+  message: Hello %s from barista-configmap.yml!
+coffeeshop:
+  routes:
+    barista-service: http://localhost:8080/api/v1
+    maintenance-service: http://localhost:8080/api/v1
+    product-service: http://localhost:8080/api/v1
+    storage-service: http://localhost:8080/api/v1

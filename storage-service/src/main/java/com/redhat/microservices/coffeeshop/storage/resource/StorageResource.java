@@ -14,6 +14,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import org.wildfly.swarm.spi.runtime.annotations.ConfigurationValue;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -45,6 +47,16 @@ public class StorageResource {
     //@ConcurrentGauge(unit = MetricUnits.NONE, name = "milk_storage_gauge", absolute = true)
     public Double getCurrentMilkStorage() {
         return currentMilkStorage;
+    }
+
+    @Inject
+    @ConfigurationValue("project.stage")
+    String stage;
+
+    @GET
+    @Path("/environment")
+    public Response getStage() {
+        return Response.ok("{stage: '" + stage + "'}").build();
     }
 
     @POST

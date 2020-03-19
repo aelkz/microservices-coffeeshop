@@ -43,7 +43,7 @@
         <version.compiler.plugin>3.1</version.compiler.plugin>
         <version.surefire.plugin>2.16</version.surefire.plugin>
         <version.war.plugin>3.2.3</version.war.plugin>
-        <!-- version 2.5.0.Final-redhat-00016 is in early access yet, so I chose version 2.6.0 from community -->
+        <!-- version 2.5.0.Final-redhat-00016 is in early access yet, so I chose version 2.5.0 from community -->
         <!-- https://access.redhat.com/documentation/en-us/red_hat_build_of_thorntail/2.5/html-single/thorntail_runtime_guide/index#creating-an-application-from-scratch_wf-swarm -->
         <version.thorntail>2.5.0.Final</version.thorntail>
         <version.hibernate>5.3.7.Final</version.hibernate>
@@ -276,6 +276,11 @@
             <groupId>io.thorntail</groupId>
             <artifactId>logging</artifactId>
             <version>${version.thorntail}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
         </dependency>
     </dependencies>
 

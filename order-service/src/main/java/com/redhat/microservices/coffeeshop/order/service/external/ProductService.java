@@ -3,6 +3,9 @@ package com.redhat.microservices.coffeeshop.order.service.external;
 import com.redhat.microservices.coffeeshop.order.pojo.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.wildfly.swarm.spi.runtime.annotations.ConfigurationValue;
+
+import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -17,6 +20,10 @@ public class ProductService implements Callable<Product> {
     private final Client client = ClientBuilder.newClient();
     private String productId;
 
+    @Inject
+    @ConfigurationValue("coffeeshop.routes.product-service")
+    String uri;
+
     @Override
     @SuppressWarnings("unchecked")
     public Product call() throws Exception {
@@ -26,7 +33,7 @@ public class ProductService implements Callable<Product> {
         JsonObject json = null;
 
         try {
-            target = client.target(BASE_URI);
+            target = client.target((uri != null && !"".equals(uri)) ? uri : BASE_URI);
 
             response = target
                     .path("/product/{id}")

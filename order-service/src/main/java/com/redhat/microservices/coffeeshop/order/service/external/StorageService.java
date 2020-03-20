@@ -37,6 +37,8 @@ public class StorageService implements Callable<Storage> {
         try {
             target = client.target((uri != null && !"".equals(uri)) ? uri : BASE_URI);
 
+            log.info("calling storage endpoint at:".concat(uri));
+
             if (!OrderResource.RESERVATION_ID.equals(getStorage().getTransaction())) {
                 response = putStorage(target);
             }else {

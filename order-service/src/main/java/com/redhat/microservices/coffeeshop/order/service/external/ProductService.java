@@ -35,6 +35,8 @@ public class ProductService implements Callable<Product> {
         try {
             target = client.target((uri != null && !"".equals(uri)) ? uri : BASE_URI);
 
+            log.info("calling product endpoint at:".concat(uri));
+
             response = target
                     .path("/product/{id}")
                     .resolveTemplate("id", getProductId())

@@ -100,7 +100,7 @@ public class OrderResource {
             tags = {"counter=orders"})
     @Timed(name = "orderProcessingDuration")
     @Metered(name = "orderRequest", tags = {"spec=JAX-RS", "level=REST", "method=POST"})
-    public Response order(@Context HttpHeaders headers, PaymentOrder order) throws InterruptedException, ExecutionException {
+    public Response order(@Context HttpHeaders headers, PaymentOrder order) {
         if (order == null) {
             return error(Response.Status.UNSUPPORTED_MEDIA_TYPE, "Invalid payload!");
         }

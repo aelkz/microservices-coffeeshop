@@ -1,5 +1,6 @@
 package com.redhat.microservices.coffeeshop.order.resource;
 
+import com.redhat.microservices.coffeeshop.order.exception.ProductNotFoundException;
 import com.redhat.microservices.coffeeshop.order.model.PaymentOrder;
 import com.redhat.microservices.coffeeshop.order.model.PaymentOrderItem;
 import com.redhat.microservices.coffeeshop.order.pojo.Product;
@@ -120,18 +121,23 @@ public class OrderResource {
                     ProductService ps = productServiceInstance.get();
                     ps.setProductId(i.getProductId());
 
-                    Future<Product> futureProduct = managedExecutorService.submit(ps);
+                    try {
+                        Future<Product> futureProduct = managedExecutorService.submit(ps);
 
-                    while (!futureProduct.isDone()) {
-                        log.info("Waiting Product API response...");
-                        Thread.sleep(50);
+                        while (!futureProduct.isDone()) {
+                            log.info("Waiting Product API response...");
+                            Thread.sleep(50);
+                        }
+
+                        Product result = futureProduct.get();
+                        totalRequiredMilk += result.getMilk();
+                        totalRequiredCoffee += result.getCoffee();
+
+                        log.info("Result is available. Returning Product: " + result.getName() + " with id: " + result.getId());
+                        metricRegistry.counter("product_counter", new Tag("type", result.getName())).inc();
+                    }catch (ProductNotFoundException pnfe) {
+                        throw new ExecutionException("Product not found: ".concat(i.getProductId()), pnfe);
                     }
-
-                    Product result = futureProduct.get();
-                    totalRequiredMilk += result.getMilk();
-                    totalRequiredCoffee += result.getCoffee();
-                    log.info("Result is available. Returning Product: " + result.getName() + " with id: " + result.getId());
-                    metricRegistry.counter("product_counter", new Tag("type", result.getName())).inc();
                 }
 
                 // Check storage for coffee and milk availability

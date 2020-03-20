@@ -2,10 +2,9 @@ package com.redhat.microservices.coffeeshop.order.service.external;
 
 import com.redhat.microservices.coffeeshop.order.pojo.Storage;
 import com.redhat.microservices.coffeeshop.order.resource.OrderResource;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.wildfly.swarm.spi.runtime.annotations.ConfigurationValue;
-
 import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
@@ -23,7 +22,7 @@ public class StorageService implements Callable<Storage> {
     private Storage storage;
 
     @Inject
-    @ConfigurationValue("coffeeshop.routes.storage-service")
+    @ConfigProperty(name = "coffeeshop.routes.storage-service")
     String uri;
 
     @Override
@@ -37,7 +36,7 @@ public class StorageService implements Callable<Storage> {
         try {
             target = client.target((uri != null && !"".equals(uri)) ? uri : BASE_URI);
 
-            log.info("calling storage endpoint at:".concat(uri));
+            log.info("calling storage endpoint at: ".concat(uri));
 
             if (!OrderResource.RESERVATION_ID.equals(getStorage().getTransaction())) {
                 response = putStorage(target);

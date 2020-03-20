@@ -1,10 +1,10 @@
 package com.redhat.microservices.coffeeshop.order.service.external;
 
+import com.redhat.microservices.coffeeshop.order.exception.ProductNotFoundException;
 import com.redhat.microservices.coffeeshop.order.pojo.Product;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.wildfly.swarm.spi.runtime.annotations.ConfigurationValue;
-
 import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
@@ -21,7 +21,7 @@ public class ProductService implements Callable<Product> {
     private String productId;
 
     @Inject
-    @ConfigurationValue("coffeeshop.routes.product-service")
+    @ConfigProperty(name = "coffeeshop.routes.product-service")
     String uri;
 
     @Override
@@ -35,7 +35,7 @@ public class ProductService implements Callable<Product> {
         try {
             target = client.target((uri != null && !"".equals(uri)) ? uri : BASE_URI);
 
-            log.info("calling product endpoint at:".concat(uri));
+            log.info("calling product endpoint at: ".concat(uri));
 
             response = target
                     .path("/product/{id}")
@@ -45,7 +45,7 @@ public class ProductService implements Callable<Product> {
             response.bufferEntity();
 
             if (response.getStatus() != Response.Status.OK.getStatusCode()) {
-                throw new RuntimeException("Failed with HTTP error code : " + response.getStatus());
+                throw new ProductNotFoundException(getProductId(), response.getStatus());
             }else {
                 product = response.readEntity(Product.class);
             }

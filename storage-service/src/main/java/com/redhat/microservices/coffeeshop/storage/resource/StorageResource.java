@@ -5,6 +5,7 @@ import com.redhat.microservices.coffeeshop.storage.repository.StorageRepository;
 import com.redhat.microservices.coffeeshop.storage.service.StorageService;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.ConcurrentGauge;
+import org.eclipse.microprofile.metrics.annotation.Gauge;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
@@ -37,13 +38,13 @@ public class StorageResource {
     private StorageService service;
 
     // concurrent gauge to allow tracking current coffee storage
-    @ConcurrentGauge(unit = MetricUnits.NONE, name = "coffee_storage_gauge", absolute = true)
+    @Gauge(unit = MetricUnits.NONE, name = "coffee_storage_gauge", absolute = true)
     public Double getCurrentCoffeeStorage() {
         return currentCoffeeStorage;
     }
 
     // concurrent gauge to allow tracking current milk storage
-    @ConcurrentGauge(unit = MetricUnits.NONE, name = "milk_storage_gauge", absolute = true)
+    @Gauge(unit = MetricUnits.NONE, name = "milk_storage_gauge", absolute = true)
     public Double getCurrentMilkStorage() {
         return currentMilkStorage;
     }

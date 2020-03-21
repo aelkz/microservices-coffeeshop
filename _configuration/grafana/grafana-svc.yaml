@@ -1,0 +1,26 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: grafana-service
+  namespace: raa-microservices-coffeeshop
+  selfLink: /api/v1/namespaces/raa-microservices-coffeeshop/services/grafana-service
+  ownerReferences:
+    - apiVersion: integreatly.org/v1alpha1
+      kind: Grafana
+      name: grafana
+      uid: ad90c775-6ae5-11ea-90df-0e03d5a9f25b
+      controller: true
+      blockOwnerDeletion: true
+spec:
+  ports:
+    - name: grafana
+      protocol: TCP
+      port: 3000
+      targetPort: grafana-http
+  selector:
+    app: grafana
+  clusterIP: 172.30.168.83
+  type: ClusterIP
+  sessionAffinity: None
+status:
+  loadBalancer: {}

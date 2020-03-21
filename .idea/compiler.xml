@@ -7,10 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="product-service" />
-        <module name="storage-service" />
+        <module name="barista-service" />
         <module name="order-service" />
         <module name="maintenance-service" />
-        <module name="barista-service" />
+        <module name="storage-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

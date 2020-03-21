@@ -184,14 +184,17 @@ public class OrderResource {
                 // get will block until the future is done (blocking)
                 futureStoragePut.get(5, TimeUnit.SECONDS);
 
-                response = Response.status(Response.Status.CREATED).entity(order).build();
-                log.info("Order added with id:"+order.getId());
+                log.info("Order payment type: "+order.getPaymentMethod());
+                log.info("Order payment type: "+order.getPaymentMethod().name());
 
-                if (order.getPaymentMethod().equals(PaymentOrder.PaymentMethod.CREDIT_CARD)) {
+                if (order.getPaymentMethod() == PaymentOrder.PaymentMethod.CREDIT_CARD) {
                     creditCardCounter.inc();
                 }else {
                     moneyCounter.inc();
                 }
+
+                response = Response.status(Response.Status.CREATED).entity(order).build();
+                log.info("Order added with id:"+order.getId());
 
                 // track total orders in a week (day of week for total coffee orders)
                 metricRegistry.counter("order_day_counter", new org.eclipse.microprofile.metrics.Tag("DAY_OF_WEEK", order.getCreation().getDayOfWeek().name().toUpperCase())).inc();

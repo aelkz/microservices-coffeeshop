@@ -4,9 +4,7 @@ import com.redhat.microservices.coffeeshop.maintenance.model.Greeting;
 import com.redhat.microservices.coffeeshop.maintenance.model.Maintenance;
 import com.redhat.microservices.coffeeshop.maintenance.service.MaintenanceService;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.metrics.Counter;
 import org.eclipse.microprofile.metrics.MetricRegistry;
-import org.eclipse.microprofile.metrics.annotation.Metric;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
@@ -15,7 +13,6 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wildfly.swarm.spi.runtime.annotations.ConfigurationValue;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;

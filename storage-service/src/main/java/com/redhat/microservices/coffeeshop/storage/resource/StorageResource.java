@@ -4,7 +4,6 @@ import com.redhat.microservices.coffeeshop.storage.model.Storage;
 import com.redhat.microservices.coffeeshop.storage.repository.StorageRepository;
 import com.redhat.microservices.coffeeshop.storage.service.StorageService;
 import org.eclipse.microprofile.metrics.MetricUnits;
-import org.eclipse.microprofile.metrics.annotation.ConcurrentGauge;
 import org.eclipse.microprofile.metrics.annotation.Gauge;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;

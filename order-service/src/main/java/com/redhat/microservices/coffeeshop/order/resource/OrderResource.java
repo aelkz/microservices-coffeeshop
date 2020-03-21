@@ -185,7 +185,6 @@ public class OrderResource {
                 futureStoragePut.get(5, TimeUnit.SECONDS);
 
                 log.info("Order payment type: "+order.getPaymentMethod());
-                log.info("Order payment type: "+order.getPaymentMethod().name());
 
                 if (order.getPaymentMethod() == PaymentOrder.PaymentMethod.CREDIT_CARD) {
                     creditCardCounter.inc();

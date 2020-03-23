@@ -13,3 +13,6 @@ https://developers.redhat.com/launch
 https://github.com/openshift-labs/cloud-native-labs/tree/master/solutions
 https://github.com/openshift-labs/cloud-native-labs/tree/master/solutions/inventory-thorntail
 https://github.com/integr8ly/application-monitoring-operator/blob/master/scripts/install.sh
+https://www.phillip-kruger.com/post/microprofile_openapi_swaggerui/
+https://github.com/eclipse/microprofile-open-api/wiki/Annotation-Samples
+https://dzone.com/articles/eclipse-microprofile-metrics-practical-use-cases

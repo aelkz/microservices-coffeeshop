@@ -63,11 +63,11 @@ public class OrderResource {
     // Business Metrics (using microprofile)
     @Inject
     @Metric(name = "payment_method_counter", tags = "payment_method=CREDIT_CARD", absolute = true)
-    Counter creditCardCounter;
+    Counter creditCardPaymentCounter;
 
     @Inject
     @Metric(name = "payment_method_counter", tags = "payment_method=MONEY", absolute = true)
-    Counter moneyCounter;
+    Counter moneyPaymentCounter;
 
     @Inject
     MetricRegistry metricRegistry;
@@ -112,7 +112,7 @@ public class OrderResource {
             log.error("Order creation failed");
         }else {
             try {
-                Set<PaymentOrderItem> items = order.getItems();
+                List<PaymentOrderItem> items = order.getItems();
                 double totalRequiredMilk = 0.0;
                 double totalRequiredCoffee = 0.0;
 
@@ -187,9 +187,9 @@ public class OrderResource {
                 log.info("Order payment type: "+order.getPaymentMethod());
 
                 if (order.getPaymentMethod() == PaymentOrder.PaymentMethod.CREDIT_CARD) {
-                    creditCardCounter.inc();
+                    creditCardPaymentCounter.inc();
                 }else {
-                    moneyCounter.inc();
+                    moneyPaymentCounter.inc();
                 }
 
                 response = Response.status(Response.Status.CREATED).entity(order).build();

@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -47,7 +48,7 @@ public class PaymentOrder implements BaseModel<UUID> {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "paymentOrder")
-    private Set<PaymentOrderItem> items;
+    private List<PaymentOrderItem> items;
 
     @NotNull
     @Column(name="paymentMethod", nullable = false)
@@ -79,11 +80,11 @@ public class PaymentOrder implements BaseModel<UUID> {
         this.ssn = ssn;
     }
 
-    public Set<PaymentOrderItem> getItems() {
+    public List<PaymentOrderItem> getItems() {
         return items;
     }
 
-    public void setItems(Set<PaymentOrderItem> items) {
+    public void setItems(List<PaymentOrderItem> items) {
         this.items = items;
     }
 

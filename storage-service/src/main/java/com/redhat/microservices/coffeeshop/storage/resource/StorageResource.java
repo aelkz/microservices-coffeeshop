@@ -29,28 +29,26 @@ import javax.ws.rs.core.Response;
 public class StorageResource {
     private static final Logger log = LoggerFactory.getLogger(StorageRepository.class);
 
-    private Double currentCoffeeStorage;
-
-    private Double currentMilkStorage;
-
     @Inject
     private StorageService service;
-
-    // concurrent gauge to allow tracking current coffee storage
-    @Gauge(unit = MetricUnits.NONE, name = "coffee_storage_gauge", absolute = true)
-    public Double getCurrentCoffeeStorage() {
-        return currentCoffeeStorage;
-    }
-
-    // concurrent gauge to allow tracking current milk storage
-    @Gauge(unit = MetricUnits.NONE, name = "milk_storage_gauge", absolute = true)
-    public Double getCurrentMilkStorage() {
-        return currentMilkStorage;
-    }
 
     @Inject
     @ConfigurationValue("project.stage")
     String stage;
+
+    private Double currentCoffeeStorage;
+
+    private Double currentMilkStorage;
+
+    @Gauge(unit=MetricUnits.NONE, name="coffee_storage_gauge", absolute = true)
+    public Double getCurrentCoffeeStorage() {
+        return currentCoffeeStorage;
+    }
+
+    @Gauge(unit=MetricUnits.NONE, name = "milk_storage_gauge", absolute = true)
+    public Double getCurrentMilkStorage() {
+        return currentMilkStorage;
+    }
 
     @GET
     @Path("/environment")
@@ -83,8 +81,8 @@ public class StorageResource {
                 s = service.save(s);
                 response = Response.status(Response.Status.CREATED).entity(s).build();
                 log.info("Storage record added with id:"+s.getId());
-                setCurrentCoffeeStorage(s.getTotalCoffee());
                 setCurrentMilkStorage(s.getTotalMilk());
+                setCurrentCoffeeStorage(s.getTotalCoffee());
             }catch (Exception e) {
                 response = error(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
             }

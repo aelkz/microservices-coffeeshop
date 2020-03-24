@@ -78,7 +78,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "application_payment_method_counter_total{endpoint=\"http\",instance=\"10.131.1.42:8080\",job=\"order-service\",namespace=\"microservices-coffeeshop\",payment_method=\"MONEY\",pod=\"order-service-13-t8s7d\",service=\"order-service\"}",
+          "expr": "application_payment_method_counter_total{endpoint=\"http\",job=\"order-service\",namespace=\"microservices-coffeeshop\",payment_method=\"MONEY\",service=\"order-service\"}",
           "refId": "A"
         }
       ],
@@ -152,7 +152,7 @@
       "pluginVersion": "6.5.1",
       "targets": [
         {
-          "expr": "application_coffee_storage_gauge{endpoint=\"http\",instance=\"10.131.1.39:8080\",job=\"storage-service\",namespace=\"microservices-coffeeshop\",pod=\"storage-service-2-lgccs\",service=\"storage-service\"}\t",
+          "expr": "application_coffee_storage_gauge{endpoint=\"http\",job=\"storage-service\",namespace=\"microservices-coffeeshop\",service=\"storage-service\"}\t",
           "format": "time_series",
           "instant": true,
           "intervalFactor": 1,
@@ -220,7 +220,7 @@
       "pluginVersion": "6.5.1",
       "targets": [
         {
-          "expr": "application_milk_storage_gauge{endpoint=\"http\",instance=\"10.131.1.39:8080\",job=\"storage-service\",namespace=\"microservices-coffeeshop\",pod=\"storage-service-2-lgccs\",service=\"storage-service\"}",
+          "expr": "application_milk_storage_gauge{endpoint=\"http\",job=\"storage-service\",namespace=\"microservices-coffeeshop\",service=\"storage-service\"}",
           "format": "time_series",
           "instant": true,
           "intervalFactor": 1,
@@ -299,7 +299,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "application_payment_method_counter_total{endpoint=\"http\",instance=\"10.131.1.42:8080\",job=\"order-service\",namespace=\"microservices-coffeeshop\",payment_method=\"CREDIT_CARD\",pod=\"order-service-13-t8s7d\",service=\"order-service\"}",
+          "expr": "application_payment_method_counter_total{endpoint=\"http\",job=\"order-service\",namespace=\"microservices-coffeeshop\",payment_method=\"CREDIT_CARD\",service=\"order-service\"}",
           "refId": "A"
         }
       ],
@@ -386,7 +386,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "application_product_counter_total{endpoint=\"http\",instance=\"10.131.1.42:8080\",job=\"order-service\",namespace=\"microservices-coffeeshop\",pod=\"order-service-13-t8s7d\",service=\"order-service\",type=\"cappuccino\"}\t",
+          "expr": "application_product_counter_total{endpoint=\"http\",job=\"order-service\",namespace=\"microservices-coffeeshop\",service=\"order-service\",type=\"cappuccino\"}\t",
           "refId": "A"
         }
       ],
@@ -469,7 +469,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "application_product_counter_total{endpoint=\"http\",instance=\"10.131.1.42:8080\",job=\"order-service\",namespace=\"microservices-coffeeshop\",pod=\"order-service-13-t8s7d\",service=\"order-service\",type=\"espresso\"}\t",
+          "expr": "application_product_counter_total{endpoint=\"http\",job=\"order-service\",namespace=\"microservices-coffeeshop\",service=\"order-service\",type=\"espresso\"}\t",
           "refId": "A"
         }
       ],
@@ -552,7 +552,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "application_product_counter_total{endpoint=\"http\",instance=\"10.131.1.42:8080\",job=\"order-service\",namespace=\"microservices-coffeeshop\",pod=\"order-service-13-t8s7d\",service=\"order-service\",type=\"frappe\"}\t",
+          "expr": "application_product_counter_total{endpoint=\"http\",job=\"order-service\",namespace=\"microservices-coffeeshop\",service=\"order-service\",type=\"frappe\"}\t",
           "refId": "A"
         }
       ],
@@ -572,6 +572,7 @@
       "valueName": "current"
     }
   ],
+  "refresh": false,
   "schemaVersion": 21,
   "style": "dark",
   "tags": [],
@@ -579,7 +580,7 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {
@@ -599,5 +600,5 @@
   "timezone": "",
   "title": "coffee shop",
   "uid": "Si1CCkrZz",
-  "version": 23
+  "version": 38
 }

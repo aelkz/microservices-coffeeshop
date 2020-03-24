@@ -38,7 +38,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.*;
 
 @Path("/v1")
@@ -60,21 +59,20 @@ public class OrderResource {
     @Inject
     private Instance<StorageService> storageServiceInstance;
 
-    // Business Metrics (using microprofile)
     @Inject
-    @Metric(name = "payment_method_counter", tags = "payment_method=CREDIT_CARD", absolute = true)
+    @ConfigurationValue("project.stage")
+    String stage;
+
+    @Inject
+    @Metric(name = "payment_method_counter", tags="payment_method=CREDIT_CARD", absolute=true)
     Counter creditCardPaymentCounter;
 
     @Inject
-    @Metric(name = "payment_method_counter", tags = "payment_method=MONEY", absolute = true)
+    @Metric(name="payment_method_counter", tags="payment_method=MONEY", absolute = true)
     Counter moneyPaymentCounter;
 
     @Inject
     MetricRegistry metricRegistry;
-
-    @Inject
-    @ConfigurationValue("project.stage")
-    String stage;
 
     @GET
     @Path("/environment")
@@ -135,6 +133,7 @@ public class OrderResource {
 
                         log.info("Result is available. Returning Product: " + result.getName() + " with id: " + result.getId());
                         metricRegistry.counter("product_counter", new Tag("type", result.getName())).inc();
+
                     }catch (ProductNotFoundException pnfe) {
                         throw new ExecutionException("Product not found: ".concat(i.getProductId()), pnfe);
                     }
@@ -188,14 +187,13 @@ public class OrderResource {
 
                 if (order.getPaymentMethod() == PaymentOrder.PaymentMethod.CREDIT_CARD) {
                     creditCardPaymentCounter.inc();
-                }else {
+                } else {
                     moneyPaymentCounter.inc();
                 }
 
                 response = Response.status(Response.Status.CREATED).entity(order).build();
                 log.info("Order added with id:"+order.getId());
 
-                // track total orders in a week (day of week for total coffee orders)
                 metricRegistry.counter("order_day_counter", new org.eclipse.microprofile.metrics.Tag("DAY_OF_WEEK", order.getCreation().getDayOfWeek().name().toUpperCase())).inc();
 
             } catch (InterruptedException e) { // thread was interrupted

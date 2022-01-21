@@ -47,7 +47,7 @@
         <!-- https://access.redhat.com/documentation/en-us/red_hat_build_of_thorntail/2.5/html-single/thorntail_runtime_guide/index#creating-an-application-from-scratch_wf-swarm -->
         <version.thorntail>2.5.0.Final</version.thorntail>
         <version.hibernate>5.3.7.Final</version.hibernate>
-        <version.h2>1.4.200</version.h2>
+        <version.h2>2.1.210</version.h2>
         <version.assertj>3.13.2</version.assertj>
         <version.awaitility>4.0.1</version.awaitility>
         <version.maven-surefire-plugin>2.22.2</version.maven-surefire-plugin>
